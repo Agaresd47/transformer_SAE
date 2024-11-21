@@ -23,10 +23,15 @@ What is the next step?
 Design a loss function that correctly interagte SAE with text classification. Then use test set of different emotion to test the nodes that has strong correlation with the result.
 
 Related papaer:
+
 Orignal Method: https://web.stanford.edu/class/cs294a/sparseAutoencoder.pdf
+
 Key-Sparse Transformer for Multimodal Speech Emotion Recognition, https://arxiv.org/abs/2106.11532
+
 CLDTA: Contrastive Learning based on Diagonal Transformer Autoencoder for Cross-Dataset EEG Emotion Recognition, https://arxiv.org/abs/2406.08081
+
 EEG-Based Emotion Classification Using a Deep Neural Network and Sparse Autoencoder, https://www.frontiersin.org/journals/systems-neuroscience/articles/10.3389/fnsys.2020.00043/full?utm_source=chatgpt.com
+
 Convolutional Sparse Autoencoder for Emotion Recognition, https://link.springer.com/chapter/10.1007/978-3-031-27762-7_1?utm_source=chatgpt.com
 
 
