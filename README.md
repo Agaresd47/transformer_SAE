@@ -1,6 +1,6 @@
 # GEN AI implementation with SAE model
 
-##Main architecture
+## Main architecture
 
 ![image](https://github.com/user-attachments/assets/04142012-a4e9-4a02-8734-fdeee2274d89)
 
