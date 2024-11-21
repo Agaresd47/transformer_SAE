@@ -1,47 +1,42 @@
-# GEN AI implementation with SAE model
+# GEN AI Implementation with SAE Model
 
 ## Goal
 
-Using SAE to drop activation level of negative emotion like hating and cheating to create a safe reulst.
+Use SAE to reduce the activation levels of negative emotions such as hatred and deceit to create safer outputs.
 
 Inspired by: [/2024/scaling-monosemanticity/](https://transformer-circuits.pub/2024/scaling-monosemanticity/)
 
-
-## Main architecture
+## Main Architecture
 
 ![image](https://github.com/user-attachments/assets/04142012-a4e9-4a02-8734-fdeee2274d89)
 
+Hugging Face Demo: [https://huggingface.co/agaresd/GEN-AI-Final-project](https://huggingface.co/agaresd/GEN-AI-Final-project)
 
-Hugging face to try out: https://huggingface.co/agaresd/GEN-AI-Final-project
+## Impact of the Project
 
+Demonstrate the application of SAE with transformers.
 
-What is the impact of this project?
+### Example:
 
-Proof the usage of SAE with transformer.
-
-Example
 ![image](https://github.com/user-attachments/assets/62b636bf-d641-4a91-861c-86d3edb50129)
 
 ![image](https://github.com/user-attachments/assets/f99298b6-5271-4483-a073-acf40ae2b2ce)
 
 ![image](https://github.com/user-attachments/assets/720a7b79-e380-44c1-ad7a-0bf4ce35c9a4)
 
+## Next Steps
 
-What is the next step?
+1. Design a loss function that effectively integrates SAE with text classification tasks.
+2. Test the model using datasets with different emotional labels to identify nodes strongly correlated with the results.
 
-Design a loss function that correctly interagte SAE with text classification. Then use test set of different emotion to test the nodes that has strong correlation with the result.
+## Related Papers
 
-Related papaer:
+- Original Method: [https://web.stanford.edu/class/cs294a/sparseAutoencoder.pdf](https://web.stanford.edu/class/cs294a/sparseAutoencoder.pdf)  
+- *Key-Sparse Transformer for Multimodal Speech Emotion Recognition*: [https://arxiv.org/abs/2106.11532](https://arxiv.org/abs/2106.11532)  
+- *CLDTA: Contrastive Learning based on Diagonal Transformer Autoencoder for Cross-Dataset EEG Emotion Recognition*: [https://arxiv.org/abs/2406.08081](https://arxiv.org/abs/2406.08081)  
+- *EEG-Based Emotion Classification Using a Deep Neural Network and Sparse Autoencoder*: [https://www.frontiersin.org/journals/systems-neuroscience/articles/10.3389/fnsys.2020.00043/full?utm_source=chatgpt.com](https://www.frontiersin.org/journals/systems-neuroscience/articles/10.3389/fnsys.2020.00043/full?utm_source=chatgpt.com)  
+- *Convolutional Sparse Autoencoder for Emotion Recognition*: [https://link.springer.com/chapter/10.1007/978-3-031-27762-7_1?utm_source=chatgpt.com](https://link.springer.com/chapter/10.1007/978-3-031-27762-7_1?utm_source=chatgpt.com)
 
-Orignal Method: https://web.stanford.edu/class/cs294a/sparseAutoencoder.pdf
-
-Key-Sparse Transformer for Multimodal Speech Emotion Recognition, https://arxiv.org/abs/2106.11532
-
-CLDTA: Contrastive Learning based on Diagonal Transformer Autoencoder for Cross-Dataset EEG Emotion Recognition, https://arxiv.org/abs/2406.08081
-
-EEG-Based Emotion Classification Using a Deep Neural Network and Sparse Autoencoder, https://www.frontiersin.org/journals/systems-neuroscience/articles/10.3389/fnsys.2020.00043/full?utm_source=chatgpt.com
-
-Convolutional Sparse Autoencoder for Emotion Recognition, https://link.springer.com/chapter/10.1007/978-3-031-27762-7_1?utm_source=chatgpt.com
 
 
 
