@@ -44,7 +44,7 @@ class DialogPredictor:
         
         return model
 
-    def predict(self, text):
+    def predict(self, text, feature_adjustments=None):
         """
         Predict act and emotion for a given text input and analyze SAE activations
         """
@@ -82,16 +82,46 @@ class DialogPredictor:
             # Get prediction probabilities
             act_probs = torch.softmax(act_output, dim=1)[0]
             emotion_probs = torch.softmax(emotion_output, dim=1)[0]
-            
-            # Analyze SAE activations
-            encoded_features = encoded.cpu().numpy()
-            
-            # Get top 5 most activated features
-            # Reshape to (batch_size * seq_length, feature_dim)
-            feature_activations = encoded_features.reshape(-1, encoded_features.shape[-1])
-            mean_activations = np.mean(np.abs(feature_activations), axis=0)
-            top_features_idx = np.argsort(mean_activations)[-5:][::-1]
-            top_features_values = mean_activations[top_features_idx]
+                    # Analyze SAE activations
+        encoded_features = encoded.cpu().numpy()
+        
+        # Debug: Print the shape of encoded features
+        #print(f"Encoded features shape: {encoded_features.shape}")
+        
+        # Get the number of features
+        num_features = encoded_features.shape[-1]
+        
+        # Debug: Print the number of features
+        #print(f"Number of features: {num_features}")
+        
+        # Apply feature adjustments if provided
+        if feature_adjustments:
+            for feature_idx, adjustment in feature_adjustments.items():
+                if 0 <= feature_idx < num_features:
+                    # Debug: Print the feature index and adjustment factor
+                    #print(f"Adjusting feature {feature_idx} by factor {adjustment}")
+                    # Debug: Print feature values before adjustment
+                    #print(f"Feature {feature_idx} values before adjustment: {encoded_features[:, :, feature_idx]}")
+                    encoded_features[:, :, feature_idx] *= adjustment
+                    # Debug: Print feature values after adjustment
+                    #print(f"Feature {feature_idx} values after adjustment: {encoded_features[:, :, feature_idx]}")
+                else:
+                    print(f"Warning: Feature index {feature_idx} is out of bounds and will be ignored.")
+        
+        # Get top 5 most activated features
+        # Reshape to (batch_size * seq_length, feature_dim)
+        feature_activations = encoded_features.reshape(-1, encoded_features.shape[-1])
+        mean_activations = np.mean(np.abs(feature_activations), axis=0)
+        
+        # Debug: Print mean activations
+        #print(f"Mean activations: {mean_activations}")
+        
+        top_features_idx = np.argsort(mean_activations)[-5:][::-1]
+        top_features_values = mean_activations[top_features_idx]
+        
+        # Debug: Print top features
+        #print(f"Top features indices: {top_features_idx}")
+        #print(f"Top features values: {top_features_values}")
         
         return {
             'act': {
@@ -111,17 +141,13 @@ class DialogPredictor:
                 'total_activation': float(np.mean(np.abs(feature_activations)))
             }
         }
-
-# Example usage
-if __name__ == "__main__":
-    # Initialize predictor
-    predictor = DialogPredictor(
-        model_path=r'saved/try2/model-3693.032.pt'  # Use your best model checkpoint
-    )
     
-    # Example prediction
-    text = "anger"
-    result = predictor.predict(text)
+def predict(model_path, text, feature_adjustments):
+    # Initialize predictor
+    predictor = DialogPredictor(model_path=model_path)
+    
+    # Perform prediction with featudfdre adjustments
+    result = predictor.predict(text, feature_adjustments)
     
     # Print results
     print(f"\nInput text: {text}")
@@ -134,4 +160,14 @@ if __name__ == "__main__":
     print(f"Average Total Activation: {result['sae_analysis']['total_activation']:.4f}")
     print("\nTop 5 Most Activated Features:")
     for i, feature in enumerate(result['sae_analysis']['top_features'], 1):
-        print(f"{i}. Feature {feature['feature_idx']}: {feature['activation']:.4f}") 
+        print(f"{i}. Feature {feature['feature_idx']}: {feature['activation']:.4f}")
+
+
+
+if __name__ == "__main__":
+    # Example usage
+    model_path = r'saved/try2/model-3693.032.pt'  # Use your best model checkpoint
+    text = "anger"
+    feature_adjustments = {50: -11, 285: -11}  # Example adjustments
+    
+    predict(model_path, text, feature_adjustments)
