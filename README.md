@@ -4,7 +4,7 @@
 
 Using SAE to drop activation level of negative emotion like hating and cheating to create a safe reulst.
 
-Inspired by: /2024/scaling-monosemanticity/
+Inspired by: [/2024/scaling-monosemanticity/](https://transformer-circuits.pub/2024/scaling-monosemanticity/)
 
 
 ## Main architecture
