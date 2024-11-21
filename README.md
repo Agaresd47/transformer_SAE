@@ -1,5 +1,12 @@
 # GEN AI implementation with SAE model
 
+## Goal
+
+Using SAE to drop activation level of negative emotion like hating and cheating to create a safe reulst.
+
+Inspired by: /2024/scaling-monosemanticity/
+
+
 ## Main architecture
 
 ![image](https://github.com/user-attachments/assets/04142012-a4e9-4a02-8734-fdeee2274d89)
@@ -14,7 +21,9 @@ Proof the usage of SAE with transformer.
 
 Example
 ![image](https://github.com/user-attachments/assets/62b636bf-d641-4a91-861c-86d3edb50129)
+
 ![image](https://github.com/user-attachments/assets/f99298b6-5271-4483-a073-acf40ae2b2ce)
+
 ![image](https://github.com/user-attachments/assets/720a7b79-e380-44c1-ad7a-0bf4ce35c9a4)
 
 
