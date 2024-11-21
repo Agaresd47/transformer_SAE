@@ -18,6 +18,9 @@ Demonstrate the application of SAE with transformers.
 
 ### Example:
 
+Demonstration Video: [https://youtu.be/iP9NNwDiwGk](https://youtu.be/iP9NNwDiwGk)
+
+
 ![image](https://github.com/user-attachments/assets/62b636bf-d641-4a91-861c-86d3edb50129)
 
 ![image](https://github.com/user-attachments/assets/f99298b6-5271-4483-a073-acf40ae2b2ce)
