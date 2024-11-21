@@ -17,11 +17,17 @@ class SAEAnalyzer:
     
     def plot_activation_distribution(self):
         """Plot distribution of neuron activations"""
-        if self.metadata is None:
+        if self.metadata is None or ('activations' not in self.metadata and 'encoded_features' not in self.metadata):
+            print("Computing activations as metadata is not available...")
             activations = self.compute_activations()
         else:
-            activations = self.metadata['activations']
-        
+            # Use either 'activations' or 'encoded_features'
+            activations = self.metadata.get('activations', self.metadata.get('encoded_features'))
+            
+        if activations is None or activations.size == 0:
+            print("No activations available to plot!")
+            return
+            
         plt.figure(figsize=(12, 6))
         sns.histplot(activations.flatten(), bins=50)
         plt.title('Distribution of Neuron Activations')
@@ -33,25 +39,25 @@ class SAEAnalyzer:
         if self.metadata is None:
             activations = self.compute_activations()
         else:
-            activations = self.metadata['activations']
+            # Use either 'activations' or 'encoded_features'
+            activations = self.metadata.get('activations', self.metadata.get('encoded_features'))
             
-        # Debug prints
-        print(f"Initial activations shape: {activations.shape}")
-        
-        # If we only have one feature, we can't do correlation analysis
-        if activations.shape[1] < 2:
-            print("Not enough features for correlation analysis. Skipping plot.")
+        if activations is None:
+            print("No activations available to plot!")
             return
+            
+        # Ensure activations are 2D (samples x features)
+        if activations.ndim > 2:
+            activations = activations.reshape(-1, activations.shape[-1])
         
         # Limit number of features
         num_features = min(num_features, activations.shape[1])
-        
         feature_activations = activations[:, :num_features]
-        print(f"Feature activations shape: {feature_activations.shape}")
         
+        # Calculate correlations
         corr_matrix = np.corrcoef(feature_activations.T)
-        print(f"Correlation matrix shape: {corr_matrix.shape}")
         
+        # Plot
         plt.figure(figsize=(12, 10))
         sns.heatmap(corr_matrix, cmap='coolwarm', center=0)
         plt.title(f'Feature Correlations (First {num_features} Features)')
@@ -92,15 +98,20 @@ class SAEAnalyzer:
         
         return self.cached_activations
     
-    def plot_reconstruction_error(self, num_batches=10):
+    def plot_reconstruction_error(self):
         """Plot reconstruction error distribution"""
-        if self.metadata is None:
-            raise ValueError("No metadata available for reconstruction error analysis")
+        if self.metadata is None or 'reconstruction_errors' not in self.metadata:
+            print("Reconstruction errors not available in metadata")
+            return
         
         errors = self.metadata['reconstruction_errors']
         
+        # Flatten if needed
+        if errors.ndim > 1:
+            errors = errors.flatten()
+        
         plt.figure(figsize=(10, 6))
-        sns.histplot(errors.flatten(), bins=50)
+        sns.histplot(errors, bins=50)
         plt.title('Distribution of Reconstruction Errors')
         plt.xlabel('Mean Squared Error')
         plt.ylabel('Count')
@@ -111,3 +122,70 @@ class SAEAnalyzer:
         mean_activations = np.mean(activations, axis=0)
         top_indices = np.argsort(mean_activations)[-top_k:]
         return top_indices, mean_activations[top_indices] 
+    
+
+
+    def get_dead_features(self):
+        """Return indices of dead features (features that rarely activate)"""
+        if self.metadata is None:
+            activations = self.compute_activations()
+        else:
+            activations = self.metadata.get('activations', self.metadata.get('encoded_features'))
+        
+        if activations is None:
+            print("No activations available!")
+            return []
+            
+        # Ensure activations are 2D
+        if activations.ndim > 2:
+            activations = activations.reshape(-1, activations.shape[-1])
+            
+        # Consider a feature dead if it activates less than 1% of the time
+        activation_rates = np.mean(np.abs(activations) > 1e-6, axis=0)
+        dead_features = np.where(activation_rates < 0.01)[0]
+        return dead_features
+
+    def get_activation_rates(self):
+        """Return activation rates for each feature"""
+        if self.metadata is None:
+            activations = self.compute_activations()
+        else:
+            activations = self.metadata.get('activations', self.metadata.get('encoded_features'))
+        
+        if activations is None:
+            print("No activations available!")
+            return np.array([])
+            
+        # Ensure activations are 2D
+        if activations.ndim > 2:
+            activations = activations.reshape(-1, activations.shape[-1])
+            
+        # Calculate activation rates (how often each feature is active)
+        activation_rates = np.mean(np.abs(activations) > 1e-6, axis=0)
+        return activation_rates
+
+    def get_feature_statistics(self):
+        """Return comprehensive statistics about feature activations"""
+        if self.metadata is None:
+            activations = self.compute_activations()
+        else:
+            activations = self.metadata.get('activations', self.metadata.get('encoded_features'))
+        
+        if activations is None:
+            print("No activations available!")
+            return {}
+            
+        # Ensure activations are 2D
+        if activations.ndim > 2:
+            activations = activations.reshape(-1, activations.shape[-1])
+            
+        stats = {
+            'mean_activations': np.mean(activations, axis=0),
+            'std_activations': np.std(activations, axis=0),
+            'activation_rates': self.get_activation_rates(),
+            'dead_features': self.get_dead_features(),
+            'max_activations': np.max(activations, axis=0),
+            'min_activations': np.min(activations, axis=0)
+        }
+        
+        return stats

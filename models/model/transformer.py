@@ -37,6 +37,15 @@ class Transformer(nn.Module):
                                n_layers=n_layers,
                                device=device)
 
+        # Add proper initialization
+        def init_weights(m):
+            if isinstance(m, nn.Linear):
+                torch.nn.init.xavier_uniform_(m.weight)
+                if m.bias is not None:
+                    torch.nn.init.zeros_(m.bias)
+        
+        self.apply(init_weights)
+
     def forward(self, src, trg):
         src_mask = self.make_src_mask(src)
         trg_mask = self.make_trg_mask(trg)

@@ -211,7 +211,7 @@ def train(model, iterator, optimizer, criterion_emotion, criterion_act, device, 
         # Calculate total loss using the new function
         total_loss = calculate_total_loss(
             emotion_output, emotions, act_output, acts, kl_div, emotion_acc, act_acc,
-            alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=(model.sparse_autoencoder.beta*epsilon)
+            alpha=alpha, beta=beta, gamma=gamma, delta=delta, epsilon=epsilon
         )
         
         # Backward pass
@@ -687,7 +687,7 @@ if __name__ == '__main__':
     """
 
 
-    main(total_epoch=40, batch_size=64, learning_rate=1e-5, n_layers=8, n_heads=12, drop_prob=0.2, save_dir="try2",
-         alpha=0.7, beta=0.7, gamma=0.2, delta=0.2, epsilon=0.5)
+    main(total_epoch=20, batch_size=64, learning_rate=1e-5, n_layers=8, n_heads=12, drop_prob=0.2, save_dir="try_new_64",
+         alpha=0.7, beta=0.7, gamma=0.2, delta=0.2, epsilon=0.015)
 
 
