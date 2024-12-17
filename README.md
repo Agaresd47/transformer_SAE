@@ -6,6 +6,26 @@ Use SAE to reduce the activation levels of negative emotions such as hatred and 
 
 Inspired by: [/2024/scaling-monosemanticity/](https://transformer-circuits.pub/2024/scaling-monosemanticity/)
 
+
+## Ideal Output
+
+When changing the activation level of different nodes/neural, the outcome will be changed correspondingly.
+One example from anthropic :
+
+
+![image](https://github.com/user-attachments/assets/c43c6415-3138-4fe2-b82e-70d0cc6b89fd)
+
+## Idea Implement
+
+I will introduce Sparse Auto Encoder (SAE) in the regular transform model and try to regulaize the node usage of the model. Then use testing method like input same sentence with different meaning to record the node activation level to capture the emotion represenation of each node. Thus, I could control different node to change the output of the model.
+
+## Usage of Current Code
+
+The majority of function can be access through the  [try.ipynb](https://github.com/Agaresd47/transformer_SAE/blob/master/try.ipynb), which include activation function analysis method, inference with current checkpoint, and inference through Hugging Face function.
+You can  use [train.py](https://github.com/Agaresd47/transformer_SAE/blob/master/train.py) to train the model from scratch and change hyper parameter. The main architecture can also be modified in trian.py. 
+
+
+
 ## Main Architecture
 
 ![image](https://github.com/user-attachments/assets/04142012-a4e9-4a02-8734-fdeee2274d89)
@@ -16,9 +36,14 @@ Hugging Face Demo: [https://huggingface.co/agaresd/GEN-AI-Final-project](https:/
 
 Demonstrate the application of SAE with transformers.
 
+
+
+
 ### Example:
 
 Demonstration Video: [https://youtu.be/iP9NNwDiwGk](https://youtu.be/iP9NNwDiwGk)
+
+
 
 
 ![image](https://github.com/user-attachments/assets/62b636bf-d641-4a91-861c-86d3edb50129)
@@ -31,6 +56,12 @@ Demonstration Video: [https://youtu.be/iP9NNwDiwGk](https://youtu.be/iP9NNwDiwGk
 
 1. Design a loss function that effectively integrates SAE with text classification tasks.
 2. Test the model using datasets with different emotional labels to identify nodes strongly correlated with the results.
+
+
+
+
+
+
 
 ## Related Papers
 
