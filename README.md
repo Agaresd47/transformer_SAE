@@ -90,6 +90,38 @@ Steps:
 
 Hugging Face Demo: [https://huggingface.co/agaresd/GEN-AI-Final-project](https://huggingface.co/agaresd/GEN-AI-Final-project)
 
+## DailyDialog Dataset
+
+**Description**  
+DailyDialog is a high-quality, human-written dataset containing **13,118 multi-turn dialogues** that mirror everyday communication scenarios across various topics. The dataset is annotated with:  
+- **Dialogue Acts**: Intent categories like inform, question, directive, and commissive.  
+- **Emotions**: Emotion labels such as happiness, sadness, anger, and surprise.  
+
+This dataset is valuable for research on dialogue systems, emotion recognition, and intent detection.
+
+---
+
+**Key Features**  
+- **13,118 dialogues**, with an average of 8 turns per dialogue.  
+- Annotated with **dialogue acts** and **emotions** for enhanced utility.  
+- Ideal for training and evaluating conversational AI models.  
+
+---
+
+**License**  
+Distributed under the **Creative Commons Attribution-NonCommercial-ShareAlike 4.0 (CC BY-NC-SA 4.0)** license:  
+- **Usage**: For research purposes only. Commercial use requires explicit permission.  
+- **Derivatives**: Must be shared under the same license.
+
+---
+
+**Source**  
+Created by [Yanran Li et al.](http://yanran.li/dailydialog). Refer to the original paper: [Li et al., 2017](https://aclanthology.org/I17-1099/).  
+For more information, visit the official dataset page: [DailyDialog](http://yanran.li/dailydialog).
+
+
+
+
 ## Impact of the Project
 
 Demonstrate the application of SAE with transformers.
