@@ -22,11 +22,69 @@ I will introduce Sparse Auto Encoder (SAE) in the regular transform model and tr
 ## Usage of Current Code
 
 The majority of function can be access through the  [try.ipynb](https://github.com/Agaresd47/transformer_SAE/blob/master/try.ipynb), which include activation function analysis method, inference with current checkpoint, and inference through Hugging Face function.
-You can  use [train.py](https://github.com/Agaresd47/transformer_SAE/blob/master/train.py) to train the model from scratch and change hyper parameter. The main architecture can also be modified in trian.py. 
+You can  use [train.py](https://github.com/Agaresd47/transformer_SAE/blob/master/train.py) to train the model from scratch and change hyper parameter. The main architecture can also be modified in trian.py. The code [inference.py](https://github.com/Agaresd47/transformer_SAE/blob/master/inference.py） has the code of inference. 
 
 
 
 ## Main Architecture
+
+Algorithm: Transformer with SAE Regularization
+Input: 
+  - input_ids: Sequence of token IDs.
+  - attention_mask: Mask indicating valid tokens in the sequence.
+
+Output:
+  - act_output: Predicted dialogue acts.
+  - emotion_output: Predicted emotions.
+  - kl_div: KL divergence loss for SAE regularization.
+
+Parameters:
+  - transformer: Pretrained Transformer encoder.
+  - batch_norm: Batch normalization layer.
+  - dropout: Dropout layer.
+  - sparse_autoencoder: SAE module for regularization.
+  - act_classifier: Classifier for dialogue acts.
+  - emotion_classifier: Classifier for emotions.
+
+Steps:
+1. **Convert Attention Mask**  
+   - Convert `attention_mask` to transformer-compatible format:  
+     `transformer_mask = attention_mask.unsqueeze(1).unsqueeze(2)`
+
+2. **Extract Transformer Features**  
+   - Compute transformer encoder output:  
+     `transformer_output = transformer.encoder(input_ids, transformer_mask)`
+
+3. **Batch Normalization**  
+   - Reshape `transformer_output` for batch normalization:  
+     `batch_size, seq_len, feature_dim = transformer_output.size()`  
+     `transformer_output = transformer_output.view(batch_size * seq_len, feature_dim)`  
+   - Apply batch normalization:  
+     `transformer_output = batch_norm(transformer_output)`  
+   - Reshape back to original dimensions:  
+     `transformer_output = transformer_output.view(batch_size, seq_len, feature_dim)`
+
+4. **Apply Dropout**  
+   - Regularize with dropout:  
+     `transformer_output = dropout(transformer_output)`
+
+5. **SAE Regularization**  
+   - Reconstruct features and compute SAE regularization:  
+     `reconstructed, kl_div, encoded = sparse_autoencoder(transformer_output)`
+
+6. **Classification with Encoded Representations**  
+   - Extract classification token representation:  
+     `cls_output = reconstructed[:, 0, :]`  
+   - Predict dialogue acts:  
+     `act_output = act_classifier(cls_output)`  
+   - Predict emotions:  
+     `emotion_output = emotion_classifier(cls_output)`
+
+7. **Return Outputs**  
+   - Return predictions and regularization loss:  
+     `return act_output, emotion_output, kl_div`
+
+
 
 ![image](https://github.com/user-attachments/assets/04142012-a4e9-4a02-8734-fdeee2274d89)
 
